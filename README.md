@@ -10,10 +10,13 @@ quadrants example, values close to an axis), the accuracy becomes inconsistent b
 clusters.
 
 RBFNetwork.java is a neural network with one input layer, one hidden layer, and one output layer. The
-weights from the input layer into the hidden layer are generated as averages among the test data,
-which are calculated with the k-means algorithm which is guaranteed to find local optima for the
-weights. The neural network learns by updating the weights from the hidden (Gaussian) layer into the
+weights from the input layer into the hidden layer are generated externally and given to the network.
+The neural network learns by updating the weights from the hidden (Gaussian) layer into the
 output layer based on the the error. This makes it a supervised learning agent.
 
 RBFClassifier.java is a classifier that manages the RBFNetwork and determines the best-fit class for
-given input according to the neural network simply by maximizing the output of the neural network.
+given input according to the neural network simply by maximizing the output of the neural network. It
+also generates the hidden layer's weights as averages among the learning data. These averages are
+calculated with the k-means algorithm which is guaranteed to find local optima for the weights in a
+finite (and typically small) number of steps, unlike many methods of approximation which require
+convergence.

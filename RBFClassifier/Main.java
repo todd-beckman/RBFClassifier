@@ -11,9 +11,6 @@ public class Main {
 		float gaussian_width = 0.02f;
 		
 		RBFClassifier classifier = new RBFClassifier(num_input, num_gaussian, num_output, learning_rate, gaussian_width);
-		String filename = "data.csv";
-		
-		//float[][] data = csv_to_float(filename);
 		
 		int training_size = 100;
 		
