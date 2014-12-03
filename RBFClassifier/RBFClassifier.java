@@ -7,7 +7,7 @@ public class RBFClassifier {
 	protected RBFNetwork network;
 	
 	/**
-	 * Builds a manager for a Radio-Basis Function network which will classify
+	 * Builds a manager for a Radial-Basis Function network which will classify
 	 * input into num_output possible classes.
 	 * @param num_inputs The number of inputs into the network
 	 * @param num_gaussian The number of hidden nodes in the network
@@ -96,93 +96,93 @@ public class RBFClassifier {
 	 * @param num_gaussian The number of clusters
 	 * @return A list of centers for each hidden Gaussian node
 	 */
-    private static float[][] kmeans(float[][] data, int num_gaussian) {
-    	
-    	//	Make the list of centers- num_gaussian lists, each at the
-    	//	length of the network input
-        float[][] centers = new float[num_gaussian][data[0].length];
-        
-        //	Initalize the first centers- force the initial clusters
-        System.arraycopy(data, 0, centers, 0, centers.length);
-        
-        //	Prepare the loop
-        HashMap<float[], Integer> old_assignments = null;
-        boolean changed = true;
-        
-        //	Run the loop. Terminate when there is no change because
-        //	this function is proven to terminate without requiring
-        //	an infinite convergence.
-        while (changed) {
-        	
-            changed = false;
-            HashMap<float[], Integer> assignments = new HashMap<>();
-            float[][] new_centers = new float[num_gaussian][data[0].length];
-            
-            //	Assignments
-            int[] center_count = new int[num_gaussian];
-            for (float[] f : data) {
-            	
-            	//	Find the closest center
-                int min_index = 0;
-                double min_dis = euclidean_distance(centers[0], f);
-                for (int i = 1; i < centers.length; i++) {
-                    double distance = euclidean_distance(centers[i], f);
-                    if (distance < min_dis) {
-                        min_dis = distance;
-                        min_index = i;
-                    }
-                }
-                
-                //	Save the this data point's closest center
-                assignments.put(f, min_index);
-                
-                //	Did the point change closest cluster since last time?
-                if (old_assignments == null || old_assignments.get(f) != min_index) {
-                    changed = true;
-                }
-                
-                //	Make up new centers
-                for (int i = 0; i < f.length; i++) {
-                    new_centers[min_index][i] += f[i];
-                }
-                
-                //	Count the number in this center (good for average later)
-                center_count[min_index]++;
-                
-            }
-            
-            //	Updates
-            for (int i = 0; i < num_gaussian; i++) {
-                for (int j = 0; j < new_centers[i].length; j++) {
-                	
-                	//	Average the centers
-                    if (center_count[i] != 0) {
-                        new_centers[i][j] /= center_count[i];
-                    }
-                }
-            }
-            
-            //	store this iteration for next time
-            old_assignments = assignments;
-            centers = new_centers;
-        }
-        
-        //	Return the best
-        return centers;
-    }
-    
-    /**
-     * Gets the Euclidean distance between two vectors
-     * @param a One vector
-     * @param b Another vector
-     * @return The Euclidean distance
-     */
-    public static double euclidean_distance(float[] a, float[] b) {
-        double sum = 0.0;
-        for (int i = 0; i < a.length; i++) {
-            sum += Math.pow(a[i]-b[i],2);
-        }
-        return Math.sqrt(sum);
-    }
+	private static float[][] kmeans(float[][] data, int num_gaussian) {
+		
+		//	Make the list of centers- num_gaussian lists, each at the
+		//	length of the network input
+		float[][] centers = new float[num_gaussian][data[0].length];
+		
+		//	Initalize the first centers- force the initial clusters
+		System.arraycopy(data, 0, centers, 0, centers.length);
+		
+		//	Prepare the loop
+		HashMap<float[], Integer> old_assignments = null;
+		boolean changed = true;
+		
+		//	Run the loop. Terminate when there is no change because
+		//	this function is proven to terminate without requiring
+		//	an infinite convergence.
+		while (changed) {
+			
+			changed = false;
+			HashMap<float[], Integer> assignments = new HashMap<>();
+			float[][] new_centers = new float[num_gaussian][data[0].length];
+			
+			//	Assignments
+			int[] center_count = new int[num_gaussian];
+			for (float[] f : data) {
+				
+				//	Find the closest center
+				int min_index = 0;
+				double min_dis = euclidean_distance(centers[0], f);
+				for (int i = 1; i < centers.length; i++) {
+					double distance = euclidean_distance(centers[i], f);
+					if (distance < min_dis) {
+						min_dis = distance;
+						min_index = i;
+					}
+				}
+				
+				//	Save the this data point's closest center
+				assignments.put(f, min_index);
+				
+				//	Did the point change closest cluster since last time?
+				if (old_assignments == null || old_assignments.get(f) != min_index) {
+					changed = true;
+				}
+				
+				//	Make up new centers
+				for (int i = 0; i < f.length; i++) {
+					new_centers[min_index][i] += f[i];
+				}
+				
+				//	Count the number in this center (good for average later)
+				center_count[min_index]++;
+				
+			}
+			
+			//	Updates
+			for (int i = 0; i < num_gaussian; i++) {
+				for (int j = 0; j < new_centers[i].length; j++) {
+					
+					//	Average the centers
+					if (center_count[i] != 0) {
+						new_centers[i][j] /= center_count[i];
+					}
+				}
+			}
+			
+			//	store this iteration for next time
+			old_assignments = assignments;
+			centers = new_centers;
+		}
+		
+		//	Return the best
+		return centers;
+	}
+	
+	/**
+	 * Gets the Euclidean distance between two vectors
+	 * @param a One vector
+	 * @param b Another vector
+	 * @return The Euclidean distance
+	 */
+	public static double euclidean_distance(float[] a, float[] b) {
+		double sum = 0.0;
+		for (int i = 0; i < a.length; i++) {
+			sum += Math.pow(a[i]-b[i],2);
+		}
+		return Math.sqrt(sum);
+	}
 }
 

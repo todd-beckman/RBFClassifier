@@ -6,7 +6,7 @@ public class RBFNetwork {
 	protected float learning_rate;
 	
 	/**
-	 * Constructs an actual RBF network
+	 * Constructs an actual Radial-Basis Function network
 	 * @param num_inputs The number of input layer nodes
 	 * @param num_gaussian The number of hidden layer nodes
 	 * @param num_outputs The number of output layer nodes (classifications)
