@@ -1,4 +1,4 @@
-RBFClassifier
+RBFClassifier by Anthony Beckman
 =============
 
 A Classifier and Neural Network for general use implemented in Java.
@@ -12,4 +12,4 @@ weights. The neural network learns by updating the weights from the hidden (Gaus
 output layer based on the the error. This makes it a supervised learning agent.
 
 RBFClassifier.java is a classifier that manages the RBFNetwork and determines the best-fit class for
-given input according to the neural network simply by finding the maximum.
+given input according to the neural network simply by maximizing the output of the neural network.
